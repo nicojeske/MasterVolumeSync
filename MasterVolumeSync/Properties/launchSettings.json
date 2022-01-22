@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "MasterVolumeSync": {
+      "commandName": "Project",
+      "dotnetRunMessages": false,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
