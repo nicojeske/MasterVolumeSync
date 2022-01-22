@@ -12,6 +12,7 @@
         <OutputType>WinExe</OutputType>
         <ApplicationIcon>icon.ico</ApplicationIcon>
         <UseWindowsForms>True</UseWindowsForms>
+        <Company>MasterVolumeSync</Company>
     </PropertyGroup>
 
     <ItemGroup>

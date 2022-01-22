@@ -1,4 +1,3 @@
-using MasterVolumeSync.Helper;
 using NAudio.CoreAudioApi;
 
 namespace MasterVolumeSync
@@ -14,13 +13,14 @@ namespace MasterVolumeSync
         private ToolStripMenuItem mastervolumeMenuItem;
         private ToolStripMenuItem whatuhearMenuItem;
 
-        private readonly IWritableOptions<Settings> _settings;
+        private readonly Settings _settings;
         private readonly ILogger<Worker> _logger;
 
 
-        public Worker(IWritableOptions<Settings> settings, ILogger<Worker> logger)
+        public Worker(ILogger<Worker> logger)
         {
-            _settings = settings;
+            Settings.Load();
+            _settings = Settings.Instance;
             _logger = logger;
 
             logger.LogInformation("Worker created");
@@ -28,7 +28,7 @@ namespace MasterVolumeSync
 
         private void Run()
         {
-            if (string.IsNullOrEmpty(_settings.Value.WhatUHearId))
+            if (string.IsNullOrEmpty(_settings.WhatUHearId))
             {
                 MMDevice? possibleRec = enumer.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active)
                     .FirstOrDefault(x => x.FriendlyName.ToLower().Contains("sound blaster"));
@@ -36,12 +36,12 @@ namespace MasterVolumeSync
             }
             else
             {
-                WhatUHearDevice = enumer.GetDevice(_settings.Value.WhatUHearId);
+                WhatUHearDevice = enumer.GetDevice(_settings.WhatUHearId);
             }
 
-            masterVolumeDevice = string.IsNullOrEmpty(_settings.Value.OutputId)
+            masterVolumeDevice = string.IsNullOrEmpty(_settings.OutputId)
                 ? enumer.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia)
-                : enumer.GetDevice(_settings.Value.OutputId);
+                : enumer.GetDevice(_settings.OutputId);
 
 
             SaveDevicesInSettings();
@@ -119,11 +119,9 @@ namespace MasterVolumeSync
 
         private void SaveDevicesInSettings()
         {
-            _settings.Update(opt =>
-            {
-                opt.OutputId = masterVolumeDevice.ID;
-                opt.WhatUHearId = WhatUHearDevice.ID;
-            });
+            _settings.OutputId = masterVolumeDevice.ID;
+            _settings.WhatUHearId = WhatUHearDevice.ID;
+            Settings.Save();
         }
 
         private void uncheckOldAndCheckNewItem(object? sender, ToolStripMenuItem previousItem)

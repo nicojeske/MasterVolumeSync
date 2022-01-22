@@ -1,6 +1,6 @@
 ﻿namespace MasterVolumeSync;
 
-public class Settings
+public class Settings : SettingsManager<Settings>
 {
     public string OutputId { get; set; }
     public string WhatUHearId { get; set; }
