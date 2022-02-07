@@ -30,19 +30,35 @@ namespace MasterVolumeSync
         {
             if (string.IsNullOrEmpty(_settings.WhatUHearId))
             {
-                MMDevice? possibleRec = enumer.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active)
-                    .FirstOrDefault(x => x.FriendlyName.ToLower().Contains("sound blaster"));
-                WhatUHearDevice = possibleRec ?? enumer.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Multimedia);
+                WhatUHearDevice = GetWhatUHearDeviceOrDefault();
             }
             else
             {
-                WhatUHearDevice = enumer.GetDevice(_settings.WhatUHearId);
+                try
+                {
+                    WhatUHearDevice = enumer.GetDevice(_settings.WhatUHearId);
+                }
+                catch (Exception e)
+                {
+                    WhatUHearDevice = GetWhatUHearDeviceOrDefault();
+                }
             }
 
-            masterVolumeDevice = string.IsNullOrEmpty(_settings.OutputId)
-                ? enumer.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia)
-                : enumer.GetDevice(_settings.OutputId);
-
+            if (string.IsNullOrEmpty(_settings.OutputId))
+            {
+                masterVolumeDevice = enumer.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            }
+            else
+            {
+                try
+                {
+                    WhatUHearDevice = enumer.GetDevice(_settings.OutputId);
+                }
+                catch (Exception e)
+                {
+                    WhatUHearDevice = enumer.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+                }
+            }
 
             SaveDevicesInSettings();
 
@@ -52,6 +68,13 @@ namespace MasterVolumeSync
             thread.Start();
 
             masterVolumeDevice.AudioEndpointVolume.OnVolumeNotification += OnVolumeNotification;
+        }
+
+        private MMDevice GetWhatUHearDeviceOrDefault()
+        {
+            MMDevice? possibleRec = enumer.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active)
+                .FirstOrDefault(x => x.FriendlyName.ToLower().Contains("sound blaster"));
+            return possibleRec ?? enumer.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Multimedia);
         }
 
         private void ShowTrayIcon()
