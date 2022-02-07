@@ -52,11 +52,11 @@ namespace MasterVolumeSync
             {
                 try
                 {
-                    WhatUHearDevice = enumer.GetDevice(_settings.OutputId);
+                    masterVolumeDevice = enumer.GetDevice(_settings.OutputId);
                 }
                 catch (Exception e)
                 {
-                    WhatUHearDevice = enumer.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+                    masterVolumeDevice = enumer.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
                 }
             }
 
