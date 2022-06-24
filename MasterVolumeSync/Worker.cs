@@ -173,6 +173,7 @@ namespace MasterVolumeSync
         {
             // Adjust audio volume of the "What u hear" device
             WhatUHearDevice.AudioEndpointVolume.MasterVolumeLevelScalar = data.MasterVolume;
+            WhatUHearDevice.AudioEndpointVolume.Mute = data.Muted;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
