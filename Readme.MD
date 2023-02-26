@@ -7,6 +7,11 @@ The application runs as a service and can be exited and configured via the icon 
 
 To install the application you just need to download and execute the "MasterVolumeSync.msi" file. (You can find it [here](https://github.com/nicojeske/MasterVolumeSync/releases/latest))
 
+Alternatively you can install the application via `winget` in the commandline:
+```powershell
+winget install --id NicoJeskeIT.MasterVolumeSync
+```
+
 To run the application you will need to install .NET 6.0. from Microsoft. When trying to start the app without having it installed you will get a pop-up guiding you to the download path. Otherwise you can download it [here](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime?cid=getdotnetcore) directly from Microsoft. Just make sure to download it under the point "Run desktop apps".
 
 The application is tested with the following sound cards:
