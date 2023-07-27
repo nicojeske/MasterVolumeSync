@@ -5,6 +5,23 @@
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
+; The architecture is passed as a define from the GitHub Action
+!ifndef ARCH
+    !error "ARCH is not defined"
+!endif
+
+
+; Based on the architecture, we set the publish directory and the output file
+!if ${ARCH} == "x64"
+    !define PUBLISHDIR "publish/x64"
+    !define OUTFILE "setup-x64.exe"
+    !define APPDIR "$PROGRAMFILES64"
+!else
+    !define PUBLISHDIR "publish/x86"
+    !define OUTFILE "setup-x86.exe"
+    !define APPDIR "$PROGRAMFILES"
+!endif
+
 ;--------------------------------
 ; Custom defines
 !define APPNAME "MasterVolumeSync"
@@ -19,7 +36,7 @@
 !define UPDATEURL "https://github.com/nicojeske/MasterVolumeSync" # "Product Updates" link
 !define ABOUTURL "https://github.com/nicojeske/MasterVolumeSync" # "Publisher" link
 
-!getdllversion "publish\${DLL}" Expv_
+!getdllversion "${PUBLISHDIR}\${DLL}" Expv_
 
 
 !verbose push
@@ -38,8 +55,9 @@
 
 
 ; Installer Configuration
-Outfile "setup.exe"
-InstallDir "$PROGRAMFILES\${COMPANYNAME}\${APPNAME}"
+; Use OUTFILE for the Outfile command
+Outfile "${OUTFILE}"
+InstallDir "${APPDIR}\${COMPANYNAME}\${APPNAME}"
 RequestExecutionLevel admin
 CRCCheck on
 
@@ -103,7 +121,7 @@ section "install"
 	# Files for the install directory - to build the installer, these should be in the same directory as the install script (this file)
 	setOutPath $INSTDIR
 	# Files added here should be removed by the uninstaller (see section "uninstall")
-	File /r "publish\*.*"
+	File /r "${PUBLISHDIR}\*.*"
  
 	# Uninstaller - See function un.onInit and section "uninstall" for configuration
 	writeUninstaller "$INSTDIR\uninstall.exe"

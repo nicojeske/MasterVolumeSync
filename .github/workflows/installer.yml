@@ -1,6 +1,3 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: .NET
 
 on:
@@ -30,17 +27,30 @@ jobs:
         - name: Restore dependencies
           run: dotnet restore
 
-        - name: publish
-          run: dotnet publish -c Release --self-contained false --output "publish"
+        # Publish for x64 and x86
+        - name: publish x64
+          run: dotnet publish -c Release -r win-x64 --self-contained false --output "publish/x64"
+        - name: publish x86
+          run: dotnet publish -c Release -r win-x86 --self-contained false --output "publish/x86"
 
-        - name: build installer
-          run: makensis setup.nsi
+        # Create installer for x64 and x86
+        - name: build x64 installer
+          run: makensis /DARCH=x64 setup.nsi
+        - name: build x86 installer
+          run: makensis /DARCH=x86 setup.nsi
 
-        - name: Upload a Build Artifact
+
+        - name: Upload x64 Build Artifact
           uses: actions/upload-artifact@v3.1.2
           with:
-            name: setup.exe
-            path: setup.exe
+            name: setup-x64.exe
+            path: setup-x64.exe
+
+        - name: Upload x86 Build Artifact
+          uses: actions/upload-artifact@v3.1.2
+          with:
+            name: setup-x86.exe
+            path: setup-x86.exe
 
     release:
         runs-on: ubuntu-latest
@@ -48,13 +58,21 @@ jobs:
         steps:
         - uses: actions/checkout@v2
 
-        - name: Download installer
+        - name: Download x64 installer
           uses: actions/download-artifact@v2
           with:
-            name: setup.exe
+            name: setup-x64.exe
 
-        - name: Rename installer
-          run: mv setup.exe MastervolumeSync-${{ github.ref_name }}-Setup.exe
+        - name: Download x86 installer
+          uses: actions/download-artifact@v2
+          with:
+            name: setup-x86.exe
+
+        - name: Rename x64 installer
+          run: mv setup-x64.exe MastervolumeSync-${{ github.ref_name }}-Setup.exe
+
+        - name: Rename x86 installer
+          run: mv setup-x86.exe MastervolumeSync-${{ github.ref_name }}-x86-Setup.exe
 
         - name: Create Release
           uses: "marvinpinto/action-automatic-releases@latest"
@@ -63,9 +81,5 @@ jobs:
             prerelease: false
             files: |
                 MastervolumeSync-${{ github.ref_name }}-Setup.exe
+                MastervolumeSync-${{ github.ref_name }}-x86-Setup.exe
             title: "MastervolumeSync ${{ github.ref_name }}"
-                
-
-        
-
-      
