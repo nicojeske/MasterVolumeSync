@@ -1,0 +1,71 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    tags:
+      - "v*"
+env:
+  NSIS_VERSION: 3.09
+
+jobs:
+    create_installer:
+        runs-on: windows-latest
+
+        steps:
+        - name: Setup NSIS
+          run: |
+            Invoke-WebRequest https://nav.dl.sourceforge.net/project/nsis/NSIS%203/${{env.NSIS_VERSION}}/nsis-${{env.NSIS_VERSION}}-setup.exe -OutFile C:\WINDOWS\Temp\nsis-${{env.NSIS_VERSION}}-setup.exe
+            Invoke-Expression "& C:\WINDOWS\Temp\nsis-${{env.NSIS_VERSION}}-setup.exe /S"
+
+        - uses: actions/checkout@v3
+
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: 6.0.x
+
+        - name: Restore dependencies
+          run: dotnet restore
+
+        - name: publish
+          run: dotnet publish -c Release --self-contained false --output "publish"
+
+        - name: build installer
+          run: makensis setup.nsi
+
+        - name: Upload a Build Artifact
+          uses: actions/upload-artifact@v3.1.2
+          with:
+            name: setup.exe
+            path: setup.exe
+
+    release:
+        runs-on: ubuntu-latest
+        needs: create_installer
+        steps:
+        - uses: actions/checkout@v2
+
+        - name: Download installer
+          uses: actions/download-artifact@v2
+          with:
+            name: setup.exe
+
+        - name: Rename installer
+          run: mv setup.exe MastervolumeSync-${{ github.ref_name }}-Setup.exe
+
+        - name: Create Release
+          uses: "marvinpinto/action-automatic-releases@latest"
+          with:
+            repo_token: "${{ secrets.GITHUB_TOKEN }}"
+            prerelease: false
+            files: |
+                MastervolumeSync-${{ github.ref_name }}-Setup.exe
+            title: "MastervolumeSync ${{ github.ref_name }}"
+                
+
+        
+
+      
