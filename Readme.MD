@@ -16,6 +16,7 @@ To run the application you will need to install .NET 6.0. from Microsoft. When t
 
 The application is tested with the following sound cards:
 - Creative Soundblaster AE-5 Plus
+- Creative Soundblaster Zx
 
 ## Credit
 Icon: [Music vector created by studiogstock - www.freepik.com](https://www.freepik.com/vectors/music)
