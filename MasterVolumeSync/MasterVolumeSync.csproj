@@ -13,6 +13,8 @@
         <ApplicationIcon>icon.ico</ApplicationIcon>
         <UseWindowsForms>True</UseWindowsForms>
         <Company>MasterVolumeSync</Company>
+        <AssemblyVersion>1.0.8</AssemblyVersion>
+        <FileVersion>1.0.8</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
