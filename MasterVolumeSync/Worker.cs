@@ -53,6 +53,7 @@ namespace MasterVolumeSync
                 try
                 {
                     masterVolumeDevice = enumer.GetDevice(_settings.OutputId);
+                    var volume = masterVolumeDevice.AudioEndpointVolume;
                 }
                 catch (Exception e)
                 {
@@ -149,7 +150,7 @@ namespace MasterVolumeSync
 
         private void uncheckOldAndCheckNewItem(object? sender, ToolStripMenuItem previousItem)
         {
-            previousItem.Checked = false;
+            if(previousItem != null) previousItem.Checked = false;
             ((ToolStripMenuItem) sender).Checked = true;
         }
 
