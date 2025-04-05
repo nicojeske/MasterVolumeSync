@@ -10,7 +10,7 @@ public abstract class SettingsManager<T> where T : SettingsManager<T>, new()
 
     private static string GetLocalFilePath(string fileName)
     {
-        string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); 
+        string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         var companyName = Assembly.GetEntryAssembly().GetCustomAttributes<AssemblyCompanyAttribute>().FirstOrDefault();
         return Path.Combine(appData, companyName?.Company ?? Assembly.GetEntryAssembly().GetName().Name, fileName);
     }
@@ -20,7 +20,7 @@ public abstract class SettingsManager<T> where T : SettingsManager<T>, new()
         if (File.Exists(filePath))
             Instance = System.Text.Json.JsonSerializer.Deserialize<T>(File.ReadAllText(filePath));
         else
-            Instance = new T(); 
+            Instance = new T();
     }
 
     public static void Save()
