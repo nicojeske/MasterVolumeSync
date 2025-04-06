@@ -19,10 +19,10 @@ jobs:
             Invoke-WebRequest https://nav.dl.sourceforge.net/project/nsis/NSIS%203/${{env.NSIS_VERSION}}/nsis-${{env.NSIS_VERSION}}-setup.exe -OutFile C:\WINDOWS\Temp\nsis-${{env.NSIS_VERSION}}-setup.exe
             Invoke-Expression "& C:\WINDOWS\Temp\nsis-${{env.NSIS_VERSION}}-setup.exe /S"
 
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@v4
 
         - name: Setup .NET
-          uses: actions/setup-dotnet@v3
+          uses: actions/setup-dotnet@v4
           with:
             dotnet-version: 9.0.x
 
@@ -43,13 +43,13 @@ jobs:
 
 
         - name: Upload x64 Build Artifact
-          uses: actions/upload-artifact@v3.1.2
+          uses: actions/upload-artifact@v4
           with:
             name: setup-x64.exe
             path: setup-x64.exe
 
         - name: Upload x86 Build Artifact
-          uses: actions/upload-artifact@v3.1.2
+          uses: actions/upload-artifact@v4
           with:
             name: setup-x86.exe
             path: setup-x86.exe
@@ -58,15 +58,15 @@ jobs:
         runs-on: ubuntu-latest
         needs: create_installer
         steps:
-        - uses: actions/checkout@v2
+        - uses: actions/checkout@v4
 
         - name: Download x64 installer
-          uses: actions/download-artifact@v2
+          uses: actions/download-artifact@v4
           with:
             name: setup-x64.exe
 
         - name: Download x86 installer
-          uses: actions/download-artifact@v2
+          uses: actions/download-artifact@v4
           with:
             name: setup-x86.exe
 
