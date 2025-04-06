@@ -62,12 +62,22 @@ namespace MasterVolumeSync
 
             SaveDevicesInSettings();
 
-            // Run showtrayicon in a separate thread
-            var thread = new Thread(ShowTrayIcon);
-            thread.IsBackground = false;
-            thread.Start();
+            try
+            {
+                masterVolumeDevice.AudioEndpointVolume.OnVolumeNotification += OnVolumeNotification;
+                
+                // Run showtrayicon in a separate thread
+                var thread = new Thread(ShowTrayIcon);
+                thread.IsBackground = false;
+                thread.Start();
 
-            masterVolumeDevice.AudioEndpointVolume.OnVolumeNotification += OnVolumeNotification;
+            } catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to register OnVolumeNotification. The device id may have changed. The setting will be reset to the default device.");
+                ClearSettings();
+                
+                Environment.Exit(0);
+            }
         }
 
         private MMDevice GetWhatUHearDeviceOrDefault()
@@ -144,6 +154,13 @@ namespace MasterVolumeSync
         {
             _settings.OutputId = masterVolumeDevice.ID;
             _settings.WhatUHearId = WhatUHearDevice.ID;
+            Settings.Save();
+        }
+        
+        private void ClearSettings()
+        {
+            _settings.OutputId = null;
+            _settings.WhatUHearId = null;
             Settings.Save();
         }
 
