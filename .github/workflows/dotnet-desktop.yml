@@ -5,8 +5,6 @@ on:
     tags:
       - "v*"
     branches: [ "master" ]
-  pull_request:
-      branches: [ "master" ]
       
 env:
   NSIS_VERSION: 3.09
