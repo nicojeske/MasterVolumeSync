@@ -102,7 +102,7 @@ namespace MasterVolumeSync
             notifyIcon.ContextMenuStrip.Items.Add(stripLabel);
 
             ToolStripMenuItem activeItem = null;
-            
+
             // Add every audio device to the context menu
             foreach (MMDevice? device in audioDevices)
             {
@@ -125,7 +125,7 @@ namespace MasterVolumeSync
         {
             // Register OnVolumeNotification to selected renderer
             masterVolumeDevice.AudioEndpointVolume.OnVolumeNotification -= OnVolumeNotification;
-            masterVolumeDevice = enumer.GetDevice(((ToolStripMenuItem) sender).Tag.ToString());
+            masterVolumeDevice = enumer.GetDevice(((ToolStripMenuItem)sender).Tag.ToString());
             masterVolumeDevice.AudioEndpointVolume.OnVolumeNotification += OnVolumeNotification;
 
             uncheckOldAndCheckNewItem(sender, mastervolumeMenuItem);
@@ -134,7 +134,7 @@ namespace MasterVolumeSync
 
         private void SelectWhatUHearDevice(object? sender, EventArgs e)
         {
-            WhatUHearDevice = enumer.GetDevice(((ToolStripMenuItem) sender).Tag.ToString());
+            WhatUHearDevice = enumer.GetDevice(((ToolStripMenuItem)sender).Tag.ToString());
 
             uncheckOldAndCheckNewItem(sender, whatuhearMenuItem);
             SaveDevicesInSettings();
@@ -150,7 +150,7 @@ namespace MasterVolumeSync
         private void uncheckOldAndCheckNewItem(object? sender, ToolStripMenuItem previousItem)
         {
             previousItem.Checked = false;
-            ((ToolStripMenuItem) sender).Checked = true;
+            ((ToolStripMenuItem)sender).Checked = true;
         }
 
         private void Exit(object? sender, EventArgs e)

@@ -1,37 +1,35 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker">
-
-    <PropertyGroup>
-        <TargetFramework>net6.0-windows</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <UserSecretsId>dotnet-MasterVolumeSync-F18FCF73-9E25-43B8-9532-68FAECE3A29C</UserSecretsId>
-        <Title>MasterVolumeSync</Title>
-        <Authors>Nico Jeske</Authors>
-        <Description>Syncs Windows master volume with the WhatUHear interface to be able to control spdif volume</Description>
-        <AssemblyOriginatorKeyFile>..\..\..\Resourcen\nicojeske-cert.pfx</AssemblyOriginatorKeyFile>
-        <OutputType>WinExe</OutputType>
-        <ApplicationIcon>icon.ico</ApplicationIcon>
-        <UseWindowsForms>True</UseWindowsForms>
-        <Company>MasterVolumeSync</Company>
-        <AssemblyVersion>1.0.9</AssemblyVersion>
-        <FileVersion>1.0.9</FileVersion>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.2-mauipre.1.22054.8" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.2-mauipre.1.22054.8" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.2-mauipre.1.22054.8" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.2-mauipre.1.22054.8" />
-        <PackageReference Include="NAudio" Version="2.0.1" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="..\..\..\Resourcen\nicojeske-cert.pfx">
-        <Link>nicojeske-cert.pfx</Link>
-      </None>
-      <None Update="icon.ico">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-MasterVolumeSync-F18FCF73-9E25-43B8-9532-68FAECE3A29C</UserSecretsId>
+    <Title>MasterVolumeSync</Title>
+    <Authors>Nico Jeske</Authors>
+    <Description>Syncs Windows master volume with the WhatUHear interface to be able to control spdif volume</Description>
+    <AssemblyOriginatorKeyFile>..\..\..\Resourcen\nicojeske-cert.pfx</AssemblyOriginatorKeyFile>
+    <OutputType>WinExe</OutputType>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <UseWindowsForms>True</UseWindowsForms>
+    <Company>MasterVolumeSync</Company>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <FileVersion>1.1.0</FileVersion>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="NAudio" />
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Resourcen\nicojeske-cert.pfx">
+      <Link>nicojeske-cert.pfx</Link>
+    </None>
+    <None Update="icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

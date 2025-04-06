@@ -102,6 +102,9 @@ csx/
 ecf/
 rcf/
 
+# Ignore Visual Studio build files
+.vs/
+
 # Windows Store app package directories and files
 AppPackages/
 BundleArtifacts/
