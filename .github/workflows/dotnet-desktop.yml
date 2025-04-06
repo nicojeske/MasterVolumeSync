@@ -16,7 +16,7 @@ jobs:
         steps:
         - name: Setup NSIS
           run: |
-            Invoke-WebRequest https://nav.dl.sourceforge.net/project/nsis/NSIS%203/${{env.NSIS_VERSION}}/nsis-${{env.NSIS_VERSION}}-setup.exe -OutFile C:\WINDOWS\Temp\nsis-${{env.NSIS_VERSION}}-setup.exe
+            Invoke-WebRequest https://netcologne.dl.sourceforge.net/project/nsis/NSIS%203/${{env.NSIS_VERSION}}/nsis-${{env.NSIS_VERSION}}-setup.exe -OutFile C:\WINDOWS\Temp\nsis-${{env.NSIS_VERSION}}-setup.exe
             Invoke-Expression "& C:\WINDOWS\Temp\nsis-${{env.NSIS_VERSION}}-setup.exe /S"
 
         - uses: actions/checkout@v4
